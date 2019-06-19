@@ -1,0 +1,22 @@
+### oci
+export TF_VAR_oci_tenancy_ocid="ocid1.tenancy..."
+export TF_VAR_oci_user_ocid="ocid1.user..."
+export TF_VAR_oci_compartment_ocid="ocid1.compartment..."
+export TF_VAR_oci_fingerprint=
+export TF_VAR_oci_private_key_path=
+# currently only ashburn region
+export TF_VAR_oci_region=us-ashburn-1
+
+### azure
+export TF_VAR_arm_client_id=""
+export TF_VAR_arm_client_secret=""
+export TF_VAR_arm_tenant_id=""
+export TF_VAR_arm_subscription_id=""
+# currently only washington region
+export TF_VAR_arm_region=eastus
+
+export TF_VAR_SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+
+
+
+
