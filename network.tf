@@ -197,6 +197,17 @@ resource "oci_core_security_list" "az_conn_security_list" {
       max = "80"
     }
   }
+
+  egress_security_rules {
+    destination   = "0.0.0.0/0"
+    protocol = "all"
+    }
+
+  egress_security_rules {
+    destination   = "10.2.0.0/16"
+    protocol = "all"
+    }
+
 }
 
 resource "oci_core_virtual_circuit" "az_connect_virtual_circuit" {

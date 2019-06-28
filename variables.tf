@@ -14,5 +14,15 @@ variable "arm_region" {}
 variable "ssh_public_key" {}
 
 variable "oci_test_image" {
-  default = "ocid1.image.oc1.iad.aaaaaaaa5qjfahpwztfurnuun23vlu7o5tiiijyjkrsfbtf4cgcdo4z5gena"
+# oel 7.6
+  default = "ocid1.image.oc1.iad.aaaaaaaaj6pcmnh6y3hdi3ibyxhhflvp3mj2qad4nspojrnxc6pzgn2w3k5q"
 }
+
+variable "oci_test_instances_count" {
+  default = 1
+}
+
+variable "arm_test_instances_count" {
+  default = 1
+}
+
