@@ -7,6 +7,11 @@ export TF_VAR_oci_private_key_path=
 # currently only ashburn region
 export TF_VAR_oci_region=us-ashburn-1
 
+export TF_VAR_oci_cidr_vcn="10.1.0.0/16"
+export TF_VAR_oci_cidr_subnet="10.1.1.0/24"
+
+export TF_VAR_oci_test_image="ocid1.image.oc1.iad.aaaaaaaaj6pcmnh6y3hdi3ibyxhhflvp3mj2qad4nspojrnxc6pzgn2w3k5q"
+
 ### azure
 export TF_VAR_arm_client_id=""
 export TF_VAR_arm_client_secret=""
@@ -15,7 +20,13 @@ export TF_VAR_arm_subscription_id=""
 # currently only washington region
 export TF_VAR_arm_region=eastus
 
+export TF_VAR_arm_cidr_vnet="10.2.0.0/16"
+export TF_VAR_arm_cidr_subnet="10.2.1.0/24"
+export TF_VAR_arm_cidr_gw_subnet="10.2.2.0/26"
+
 export TF_VAR_SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
+
+export TF_VAR_peering_net="10.99.0"
 
 
 

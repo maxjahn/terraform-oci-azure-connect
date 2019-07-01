@@ -5,24 +5,30 @@ variable "oci_private_key_path" {}
 variable "oci_compartment_ocid" {}
 variable "oci_region" {}
 
+variable "oci_cidr_vcn" {}
+variable "oci_cidr_subnet" {}
+
 variable "arm_subscription_id" {}
 variable "arm_client_id" {}
 variable "arm_client_secret" {}
 variable "arm_tenant_id" {}
 variable "arm_region" {}
 
+variable "arm_cidr_vnet" {}
+variable "arm_cidr_subnet" {}
+variable "arm_cidr_gw_subnet" {}
+
 variable "ssh_public_key" {}
 
-variable "oci_test_image" {
-# oel 7.6
-  default = "ocid1.image.oc1.iad.aaaaaaaaj6pcmnh6y3hdi3ibyxhhflvp3mj2qad4nspojrnxc6pzgn2w3k5q"
-}
+variable "peering_net" {}
+
+variable "oci_test_image" {}
 
 variable "oci_test_instances_count" {
-  default = 1
+  default = 2
 }
 
 variable "arm_test_instances_count" {
-  default = 1
+  default = 2
 }
 

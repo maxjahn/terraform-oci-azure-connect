@@ -9,21 +9,21 @@ resource "azurerm_virtual_network" "oci_connect_vnet" {
   name                = "oci-connect-network"
   resource_group_name = "${azurerm_resource_group.oci_connect.name}"
   location            = "${azurerm_resource_group.oci_connect.location}"
-  address_space       = ["10.2.0.0/16"]
+  address_space       = ["${var.arm_cidr_vnet}"]
 }
 
 resource "azurerm_subnet" "oci_connect_subnet" {
   name                 = "oci-connect-subnet"
   resource_group_name  = "${azurerm_resource_group.oci_connect.name}"
   virtual_network_name = "${azurerm_virtual_network.oci_connect_vnet.name}"
-  address_prefix       = "10.2.1.0/24"
+  address_prefix       = "${var.arm_cidr_subnet}"
 }
 
 resource "azurerm_subnet" "oci_subnet_gw" {
   name                 = "GatewaySubnet"
   resource_group_name  = "${azurerm_resource_group.oci_connect.name}"
   virtual_network_name = "${azurerm_virtual_network.oci_connect_vnet.name}"
-  address_prefix       = "10.2.2.0/28"
+  address_prefix       = "${var.arm_cidr_gw_subnet}"
 }
 
 resource "azurerm_public_ip" "oci_connect_vng_ip" {
@@ -39,7 +39,7 @@ resource "azurerm_virtual_network_gateway" "oci_connect_vng" {
   resource_group_name = "${azurerm_resource_group.oci_connect.name}"
   type                = "ExpressRoute"
   enable_bgp          = true
-  sku                 = "Standard"
+  sku                 = "UltraPerformance"
 
   ip_configuration {
     private_ip_address_allocation = "Dynamic"
@@ -115,7 +115,7 @@ resource "azurerm_route" "oci_connect_route" {
   name                = "oci-connect-route"
   resource_group_name = "${azurerm_resource_group.oci_connect.name}"
   route_table_name    = "${azurerm_route_table.oci_connect_route_table.name}"
-  address_prefix      = "10.1.0.0/16"
+  address_prefix      = "${var.oci_cidr_vcn}"
   next_hop_type       = "VirtualNetworkGateway"
 }
 
@@ -127,14 +127,14 @@ resource "azurerm_subnet_route_table_association" "oci_connect_route_subnet_asso
 ### oci ###################################################
 
 resource "oci_core_virtual_network" "az_connect_vcn" {
-  cidr_block     = "10.1.0.0/16"
+  cidr_block     = "${var.oci_cidr_vcn}"
   dns_label      = "azconnectvcn"
   compartment_id = "${var.oci_compartment_ocid}"
   display_name   = "az-connect-vcn"
 }
 
 resource "oci_core_subnet" "az_connect_subnet" {
-  cidr_block        = "10.1.1.0/24"
+  cidr_block        = "${var.oci_cidr_subnet}"
   compartment_id    = "${var.oci_compartment_ocid}"
   vcn_id            = "${oci_core_virtual_network.az_connect_vcn.id}"
   display_name      = "az-connect-subnet"
@@ -164,7 +164,7 @@ resource "oci_core_security_list" "az_conn_security_list" {
   }
 
   ingress_security_rules {
-    source   = "10.2.0.0/16"
+    source   = "${var.arm_cidr_vnet}" 
     protocol = "1"
   }
 
@@ -179,7 +179,7 @@ resource "oci_core_security_list" "az_conn_security_list" {
   }
 
   ingress_security_rules {
-    source   = "10.2.0.0/16"
+    source   = "${var.arm_cidr_vnet}" 
     protocol = "6"
 
     tcp_options {
@@ -204,7 +204,7 @@ resource "oci_core_security_list" "az_conn_security_list" {
     }
 
   egress_security_rules {
-    destination   = "10.2.0.0/16"
+    destination   = "${var.arm_cidr_vnet}" 
     protocol = "all"
     }
 
@@ -222,13 +222,13 @@ resource "oci_core_virtual_circuit" "az_connect_virtual_circuit" {
   provider_service_key_name = "${azurerm_express_route_circuit.oci_connect_erc.service_key}"
 
   cross_connect_mappings {
-    oracle_bgp_peering_ip   = "10.99.0.201/30"
-    customer_bgp_peering_ip = "10.99.0.202/30"
+    oracle_bgp_peering_ip   = "${var.peering_net}.201/30"
+    customer_bgp_peering_ip = "${var.peering_net}.202/30"
   }
 
   cross_connect_mappings {
-    oracle_bgp_peering_ip   = "10.99.0.205/30"
-    customer_bgp_peering_ip = "10.99.0.206/30"
+    oracle_bgp_peering_ip   = "${var.peering_net}.205/30"
+    customer_bgp_peering_ip = "${var.peering_net}.206/30"
   }
 }
 
@@ -244,7 +244,7 @@ resource "oci_core_route_table" "az_test_route_table" {
 
   route_rules {
     network_entity_id = "${oci_core_drg.az_connect_drg.id}"
-    destination       = "10.2.0.0/16"
+    destination   = "${var.arm_cidr_vnet}" 
   }
 }
 
