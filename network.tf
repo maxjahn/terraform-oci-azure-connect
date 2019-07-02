@@ -152,6 +152,13 @@ resource "oci_core_drg_attachment" "az_conn_drg_attachment" {
   display_name = "az-connect-drg-attachment"
 }
 
+resource "oci_core_internet_gateway" "oci_test_igw" {
+  display_name   = "oci-test-internet-gateway"
+  compartment_id = "${var.oci_compartment_ocid}"
+  vcn_id         = "${oci_core_virtual_network.az_connect_vcn.id}"
+}
+
+
 # this sl is not needed if you rely on the default settings
 resource "oci_core_security_list" "az_conn_security_list" {
   compartment_id = "${var.oci_compartment_ocid}"

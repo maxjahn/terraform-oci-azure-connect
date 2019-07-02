@@ -1,11 +1,5 @@
 ### oci testing 
 
-resource "oci_core_internet_gateway" "oci_test_igw" {
-  display_name   = "oci-test-internet-gateway"
-  compartment_id = "${var.oci_compartment_ocid}"
-  vcn_id         = "${oci_core_virtual_network.az_connect_vcn.id}"
-}
-
 data "oci_identity_availability_domains" "az_connect_adcomp" {
   compartment_id = "${var.oci_compartment_ocid}"
 }
