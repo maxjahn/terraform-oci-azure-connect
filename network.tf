@@ -98,7 +98,7 @@ resource "azurerm_express_route_circuit" "oci_connect_erc" {
   bandwidth_in_mbps     = 50
 
   sku {
-    tier   = "Standard"
+    tier   = "Local"
     family = "MeteredData"
   }
 
