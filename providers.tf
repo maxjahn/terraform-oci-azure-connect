@@ -13,4 +13,5 @@ provider "azurerm" {
   client_id       = "${var.arm_client_id}"
   client_secret   = "${var.arm_client_secret}"
   tenant_id       = "${var.arm_tenant_id}"
+  features {}
 }
